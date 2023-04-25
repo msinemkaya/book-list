@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import BookCreate from './components/BookCreate';
 import BookList from './components/BookList';
+import axios from 'axios';
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -17,39 +18,42 @@ function App() {
   // we are mapping the books for the id that is returning from there and change the title
   // according to what the passed newTitle is and set the new updated books
   const editBookById = (id, newTitle) => {
-      // const editedBook = books.find((book) => {
-      //   if(book.id === id) {
-      //     return {...book, title: newTitle}
-      //   }
-      //   return book
-      // })
+    // const editedBook = books.find((book) => {
+    //   if(book.id === id) {
+    //     return {...book, title: newTitle}
+    //   }
+    //   return book
+    // })
 
-      const index = books.findIndex(book => book.id === id)
-      if(index !== -1) {
-        books[index]['title'] = newTitle
-        setBooks(books)
-      }
+    const index = books.findIndex((book) => book.id === id);
+    if (index !== -1) {
+      books[index]['title'] = newTitle;
+      setBooks(books);
+    }
 
-      // setBooks(editedBook)
-  }
+    // setBooks(editedBook)
+  };
 
   // child to parent communication so we pass this function as a whole to the child that would use it
   // in this case it is BookCreate component
-  const createBook = (title) => {
+  const createBook = async (title) => {
+   
+    //sending a promise for a post request to create a book and waiting for the responce
+    const response = await axios.post('http://localhost:3001/books', {
+      title,
+    });
+
+    //adding the returned responce data to list of books
     setBooks([
       ...books,
-      {
-        id: Math.round(Math.random() * 9999),
-        //title: title
-        title,
-      },
-    ]);
+      response.data
+    ])
   };
 
   return (
     <div className='app'>
       <h1>Reading List</h1>
-      <BookList books={books} onDelete={deleteBookById} onEdit={editBookById}/>
+      <BookList books={books} onDelete={deleteBookById} onEdit={editBookById} />
       <BookCreate onCreate={createBook} />
     </div>
   );
