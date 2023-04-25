@@ -1,10 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BookCreate from './components/BookCreate';
 import BookList from './components/BookList';
 import axios from 'axios';
 
 function App() {
   const [books, setBooks] = useState([]);
+
+  const fetchBooks = async() => {
+    const response = await axios.get('https://localhost:3001/books')
+
+    setBooks(response.data)
+  }
+
+  // useEffect is taking 2 arguments, first one is a callback function
+  // and the second one is an array. If the array is empty
+  // it executes the callback function on the first render (initial render) only
+  // the callback in useEffect will ALWAYS be called, no mater what, in the initial render
+  // depending on what is inside the array, also will determine if the callback will be executed or not
+  // if there is an empty array ([]) it only executes once and never again
+  // if you dont pass any second arguments it will be executed on every rerender
+  // and if you pass a state variable or something that changes (maybe a prop) it will also be called when that value changes 
+  useEffect(() => {
+    fetchBooks()
+  }, [])
 
   // this goes all the way down to the BookShow and deletes the book with the id that has been clicked
   // by filtering the books and creating a new array without that book with what is returned from filter
