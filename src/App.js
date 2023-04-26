@@ -26,7 +26,10 @@ function App() {
 
   // this goes all the way down to the BookShow and deletes the book with the id that has been clicked
   // by filtering the books and creating a new array without that book with what is returned from filter
-  const deleteBookById = (id) => {
+  const deleteBookById = async (id) => {
+
+    await axios.delete(`http://localhost:3001/books/${id}`)
+
     const updatedBooks = books.filter((book) => book.id !== id);
 
     setBooks(updatedBooks);
@@ -58,7 +61,7 @@ function App() {
       books[index] = response.data;
       console.log(books);
     }
-    
+
     setBooks([...books]);
   };
 
