@@ -35,7 +35,7 @@ function App() {
   // we pass this all the way down to the BookEdit component
   // we are mapping the books for the id that is returning from there and change the title
   // according to what the passed newTitle is and set the new updated books
-  const editBookById = (id, newTitle) => {
+  const editBookById = async (id, newTitle) => {
     // const editedBook = books.find((book) => {
     //   if(book.id === id) {
     //     return {...book, title: newTitle}
@@ -43,29 +43,35 @@ function App() {
     //   return book
     // })
 
+    // const index = books.findIndex((book) => book.id === id);
+    // if (index !== -1) {
+    //   books[index]['title'] = newTitle;
+    //   setBooks(books);
+    // }
+
+    const response = await axios.put(`http://localhost:3001/books/${id}`, {
+      title: newTitle,
+    });
+
     const index = books.findIndex((book) => book.id === id);
     if (index !== -1) {
-      books[index]['title'] = newTitle;
-      setBooks(books);
+      books[index] = response.data;
+      console.log(books);
     }
-
-    // setBooks(editedBook)
+    
+    setBooks([...books]);
   };
 
   // child to parent communication so we pass this function as a whole to the child that would use it
   // in this case it is BookCreate component
   const createBook = async (title) => {
-   
     //sending a promise for a post request to create a book and waiting for the responce
     const response = await axios.post('http://localhost:3001/books', {
       title,
     });
 
     //adding the returned responce data to list of books
-    setBooks([
-      ...books,
-      response.data
-    ])
+    setBooks([...books, response.data]);
   };
 
   return (
