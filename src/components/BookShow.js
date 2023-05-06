@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import BookEdit from './BookEdit';
+import { BookContext } from '../context/books';
 
-export default function BookShow({ book, onDelete, onEdit }) {
+export default function BookShow({ book }) {
   const [showEdit, setShowEdit] = useState(false);
+
+  // we take the deleteBookById from BookContext
+  const { deleteBookById } = useContext(BookContext)
 
   // if clicked to edit button it sets the visibility of the BookEdit component either to true or false
   const handleEditClick = () => {
@@ -11,14 +15,17 @@ export default function BookShow({ book, onDelete, onEdit }) {
 
   // if clicked to delete button calls the passed down deleteBookById and gives the books id to it as a parameter to use
   const handleDeleteClick = () => {
-    onDelete(book.id);
+    // onDelete(book.id);
+    deleteBookById(book.id);
   };
 
-  const handleSubmit = (id, newTitle) => {
+  const handleSubmit = () => {
     // insted of sending them seperately we created one event handler and call them both in
     // here and sent it together as a whole
 
-    onEdit(id, newTitle);
+    // NO NEED TO PASS THIS DOWN ANYMORE
+    // onEdit(id, newTitle);
+    
     setShowEdit(false);
   };
 
