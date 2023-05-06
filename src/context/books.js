@@ -75,8 +75,18 @@ export function Provider({ children }) {
     setBooks([...books, response.data]);
   };
 
+  // these are the things that we want to share throughout the application
+  // we pass them down as a value to BookContext.Provider
+  const valueToShare = {
+    books,
+    deleteBookById,
+    editBookById,
+    createBook,
+    fetchBooks
+  }
+
   return (
-    <BookContext.Provider value={value}>
+    <BookContext.Provider value={valueToShare}>
       {children}
     </BookContext.Provider>
   )
