@@ -1,7 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { BookContext } from '../context/books';
 
-export default function BookCreate({ onCreate }) {
+// no longer need the onCreate prop
+export default function BookCreate() {
   const [title, setTitle] = useState('');
+
+  // we say that we want to use createBook function from BookContext
+  const { createBook } = useContext(BookContext)
 
   const handleChange = ({target}) => {
     setTitle(target.value);
@@ -12,7 +17,8 @@ export default function BookCreate({ onCreate }) {
   // and to empty the value of the input we set the title to an empty string
   const handleSubmit = (e) => {
     e.preventDefault();
-    onCreate(title);
+    // onCreate(title);
+    createBook(title)
     setTitle('')
   };
 
