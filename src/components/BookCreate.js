@@ -1,12 +1,12 @@
-import { useState, useContext } from 'react';
-import { BookContext } from '../context/books';
+import { useState } from 'react';
+import useBookContext from '../hooks/useBookContext';
 
 // no longer need the onCreate prop
 export default function BookCreate() {
   const [title, setTitle] = useState('');
 
   // we say that we want to use createBook function from BookContext
-  const { createBook } = useContext(BookContext)
+  const { createBook } = useBookContext()
 
   const handleChange = ({target}) => {
     setTitle(target.value);

@@ -1,6 +1,5 @@
 import BookShow from './BookShow'
-import { useContext } from 'react';
-import { BookContext } from '../context/books';
+import useBookContext from '../hooks/useBookContext';
 
 export default function BookList(){
     // WE NO LONGER NEED TO DO THAT
@@ -11,7 +10,7 @@ export default function BookList(){
         // const value = useContext(BookContext)
 
     // we take only the books from BookContext
-    const {books} = useContext(BookContext)
+    const {books} = useBookContext()
 
     //maps the books that has been sent and creates a BookShow component for each one of them
     // ALSO passes down the book itself to to be used for its title and id

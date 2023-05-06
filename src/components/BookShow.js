@@ -1,12 +1,12 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import BookEdit from './BookEdit';
-import { BookContext } from '../context/books';
+import useBookContext from '../hooks/useBookContext';
 
 export default function BookShow({ book }) {
   const [showEdit, setShowEdit] = useState(false);
 
   // we take the deleteBookById from BookContext
-  const { deleteBookById } = useContext(BookContext)
+  const { deleteBookById } = useBookContext()
 
   // if clicked to edit button it sets the visibility of the BookEdit component either to true or false
   const handleEditClick = () => {
