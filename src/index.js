@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { BookContext } from './context/books';
+import { Provider } from './context/books';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,10 +14,13 @@ root.render(
 
      Context provider is the second step of using context. We are providing the data
      to all the childs (App component and what is inside of it) for them to use it.
+
+     since we are no longer using a hardcoded value instead of BookContext.Provider we now pass the
+     custom Provider function that we made
   */}
-    <BookContext.Provider value={''} >
+    <Provider>
       <App />
-    </BookContext.Provider>
+    </Provider>
   </React.StrictMode>
 );
 
