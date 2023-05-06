@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
+import { BookContext } from '../context/books';
 
 export default function BookEdit({ book, onSubmit }) {
   // we taka the onSubmit which consists of editBookById
@@ -6,6 +7,8 @@ export default function BookEdit({ book, onSubmit }) {
 
   // we give the books title as a default starting state
   const [title, setTitle] = useState(book.title);
+
+  const { editBookById } = useContext(BookContext)
 
   const input = useRef(null)
 
@@ -23,7 +26,9 @@ export default function BookEdit({ book, onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    onSubmit(book.id, title);
+    onSubmit();
+    editBookById(book.id, title) // we do it here instead directly
+    // onSubmit(book.id, title); no need to pass id and title anymore
     // onEdit(book.id, title); no need anymore
   };
 
