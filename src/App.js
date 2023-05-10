@@ -18,7 +18,19 @@ function App() {
   // and if you pass a state variable or something that changes (maybe a prop) it will also be called when that value changes
   useEffect(() => {
     fetchBooks();
-  }, []);
+  }, [fetchBooks]);
+  // as soon as we put fetchBooks as a dependency in useEffect, it causes for useEffect to go into an infinite loop
+  // why?
+  // because when we rerender all the variables in the memory that has affected from this render is created once again and placed
+  // in memory with a brand new reference. so when we put a function here and cause a rerender in the component (App)
+  // useEffect is being called again since the component has changed and creates a new reference to fetchBook function
+  // and that causes useEffect the think that fetcBooks has changed and rerenders again nonstop with same steps.
+  // (since fetchBooks sets the book state, that is what makes the component rerender)
+
+  // we fix that using useCallback
+  // useCallback returns the original function in the first render and if there are no dependecies it continues to do so
+  // so this way reference of the function remains the same
+  // if there are dependencies that has changed since the last render then it returns the new version of the function 
 
   return (
     <div className='app'>

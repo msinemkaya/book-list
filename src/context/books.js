@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 import axios from 'axios';
 
 // we have created a context with the name of BookContext
@@ -12,11 +12,12 @@ export const BookContext = createContext()
 export function Provider({ children }) {
   const [books, setBooks] = useState([]);
 
-  const fetchBooks = async () => {
+  // to prevent infinite loop we wrapped our function with useCallback
+  const fetchBooks = useCallback(async () => {
     const response = await axios.get('http://localhost:3001/books');
 
     setBooks(response.data);
-  };
+  }, [])
 
   // WE NO LONGER DO THAT 
   // this goes all the way down to the BookShow and deletes the book with the id that has been clicked
